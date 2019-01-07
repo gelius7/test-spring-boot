@@ -7,7 +7,7 @@ image:
 service:
   type: ClusterIP
   externalPort: 80
-  internalPort: 3000
+  internalPort: 8080
   annotations: {}
   labels: {}
 ingress:
@@ -27,23 +27,23 @@ hpa:
   mem: 80
 resources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 1024Mi
   limits:
-    cpu: 200m
-    memory: 256Mi
+    cpu: 1000m
+    memory: 2048Mi
 readinessProbe:
   httpGet:
     path: /
-    port: 3000
-  initialDelaySeconds: 15
+    port: 8080
+  initialDelaySeconds: 30
   periodSeconds: 15
   failureThreshold: 6
 livenessProbe:
   httpGet:
     path: /
-    port: 3000
-  initialDelaySeconds: 15
+    port: 8080
+  initialDelaySeconds: 30
   periodSeconds: 15
   failureThreshold: 6
 configmap:

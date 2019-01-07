@@ -1,8 +1,9 @@
 # Dockerfile
 
-FROM node:10-alpine
+FROM openjdk:8-jre-alpine
+ENV JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
 RUN apk add --no-cache bash
-EXPOSE 3000
+EXPOSE 8080
 WORKDIR /data
-CMD ["npm", "run", "start"]
-ADD src /data
+ENTRYPOINT exec java $JAVA_OPTS -jar ROOT.jar
+COPY ./target/*.jar /data/ROOT.jar

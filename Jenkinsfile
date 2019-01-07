@@ -14,7 +14,7 @@ properties([
 ])
 podTemplate(label: label, containers: [
   containerTemplate(name: "builder", image: "quay.io/opsnow-tools/valve-builder", command: "cat", ttyEnabled: true, alwaysPullImage: true),
-  containerTemplate(name: "node", image: "node:10", command: "cat", ttyEnabled: true)
+  containerTemplate(name: "maven", image: "maven:3.5.4-jdk-8-alpine", command: "cat", ttyEnabled: true)
 ], volumes: [
   hostPathVolume(mountPath: "/var/run/docker.sock", hostPath: "/var/run/docker.sock"),
   hostPathVolume(mountPath: "/home/jenkins/.draft", hostPath: "/home/jenkins/.draft"),
@@ -43,7 +43,7 @@ podTemplate(label: label, containers: [
           throw e
         }
 
-        butler.scan(IMAGE_NAME, BRANCH_NAME, "nodejs")
+        butler.scan(IMAGE_NAME, BRANCH_NAME, "java")
 
         VERSION = butler.version
         // SOURCE_LANG = butler.source_lang
@@ -51,12 +51,32 @@ podTemplate(label: label, containers: [
       }
     }
     stage("Build") {
-      container("node") {
+      container("maven") {
         try {
-          butler.npm_build()
+          butler.mvn_build()
           butler.success(SLACK_TOKEN, "Build", IMAGE_NAME, VERSION)
         } catch (e) {
           butler.failure(SLACK_TOKEN, "Build", IMAGE_NAME)
+          throw e
+        }
+      }
+    }
+    stage("Tests") {
+      container("maven") {
+        try {
+          butler.mvn_test()
+        } catch (e) {
+          butler.failure(SLACK_TOKEN, "Tests", IMAGE_NAME)
+          throw e
+        }
+      }
+    }
+    stage("Code Analysis") {
+      container("maven") {
+        try {
+          butler.mvn_sonar()
+        } catch (e) {
+          butler.failure(SLACK_TOKEN, "Code Analysis", IMAGE_NAME)
           throw e
         }
       }
