@@ -1,7 +1,7 @@
 replicaCount: 1
 profile: default
 image:
-  repository: docker-registry.127.0.0.1.nip.io:30500/sample-spring-demo
+  repository: docker-registry.127.0.0.1.nip.io:30500/svc-grp-svc-name
   tag: latest
   pullPolicy: Always
 service:
@@ -12,9 +12,10 @@ service:
   labels: {}
 ingress:
   enabled: true
+  subdomain: svc-grp-svc-name
   basedomain: 127.0.0.1.nip.io
   hosts:
-    - sample-spring-demo.opsnow.com
+    - svc-grp-svc-name.opsnow.com
   annotations:
     kubernetes.io/ingress.class: nginx
     # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
