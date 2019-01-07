@@ -1,7 +1,7 @@
 def IMAGE_NAME = "sample-spring-demo"
 def REPOSITORY_URL = "https://github.com/gelius7/test-spring-boot.git"
 def REPOSITORY_SECRET = ""
-def SLACK_TOKEN = ""
+def SLACK_TOKEN = "T95EAPLT1/BF71R2Z7S/2M10kGqbQdg14BDcQB2UtmZh"
 
 @Library("github.com/opsnow-tools/valve-butler")
 def butler = new com.opsnow.valve.Butler()
