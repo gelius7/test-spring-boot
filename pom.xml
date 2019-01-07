@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.nalbam</groupId>
-    <artifactId>sample-spring-demo</artifactId>
+    <artifactId>test-spring-boot</artifactId>
     <version>${this.version}</version>
     <packaging>jar</packaging>
 
