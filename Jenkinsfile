@@ -67,7 +67,7 @@ podTemplate(label: label, containers: [
     stage("Code Analysis") {
       container("maven") {
         try {
-         // butler.mvn_sonar()
+          butler.mvn_sonar()
         } catch (e) {
           butler.failure(SLACK_TOKEN_DEV, "Code Analysis")
           throw e
