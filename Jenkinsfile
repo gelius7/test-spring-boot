@@ -3,8 +3,8 @@ def SERVICE_NAME = "svc-name"
 def IMAGE_NAME = "${SERVICE_GROUP}-${SERVICE_NAME}"
 def REPOSITORY_URL = "https://github.com/gelius7/test-spring-boot.git"
 def REPOSITORY_SECRET = ""
-def SLACK_TOKEN_DEV = "T95EAPLT1/BF71R2Z7S/2M10kGqbQdg14BDcQB2UtmZh"
-def SLACK_TOKEN_DQA = "T95EAPLT1/B9CNR2Q9M/0c31312w1aEts55hKVBVFttG"
+def SLACK_TOKEN_DEV = ["T95EAPLT1/BF71R2Z7S/2M10kGqbQdg14BDcQB2UtmZh", "T95EAPLT1/B9CNR2Q9M/0c31312w1aEts55hKVBVFttG"]
+def SLACK_TOKEN_DQA = ""
 
 @Library("github.com/opsnow-tools/valve-butler")
 def butler = new com.opsnow.valve.v7.Butler()
