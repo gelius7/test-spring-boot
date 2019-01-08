@@ -1,15 +1,14 @@
 package com.nalbam.sample.demo.controller;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
@@ -35,6 +34,16 @@ public class HomeController {
         model.put("date", sdf.format(new Date()));
 
         return "index";
+    }
+    
+    public String codeCoverageDummy() {
+    	StringBuffer a = new StringBuffer();
+    	a.append("hell");
+    	a.append("o");
+    	
+    	return a.toString();
+    	
+    	
     }
 
 }
