@@ -25,122 +25,120 @@ podTemplate(label: label, containers: [
     stage("Prepare") {
       container("builder") {
         butler.prepare(IMAGE_NAME)
-
-
       }
     }
-#    stage("Checkout") {
-#      container("builder") {
-#        try {
-#          if (REPOSITORY_SECRET) {
-#            git(url: REPOSITORY_URL, branch: BRANCH_NAME, credentialsId: REPOSITORY_SECRET)
-#          } else {
-#            git(url: REPOSITORY_URL, branch: BRANCH_NAME)
-#          }
-#        } catch (e) {
-#          butler.failure(SLACK_TOKEN_DEV, "Checkout")
-#          throw e
-#        }
-#
-#        butler.scan("java")
-#      }
-#    }
-#    stage("Build") {
-#      container("maven") {
-#        try {
-#          butler.mvn_build()
-#          butler.success(SLACK_TOKEN_DEV, "Build")
-#        } catch (e) {
-#          butler.failure(SLACK_TOKEN_DEV, "Build")
-#          throw e
-#        }
-#      }
-#    }
-#    stage("Tests") {
-#      container("maven") {
-#        try {
-#          butler.mvn_test()
-#        } catch (e) {
-#          butler.failure(SLACK_TOKEN_DEV, "Tests")
-#          throw e
-#        }
-#      }
-#    }
-#    stage("Code Analysis") {
-#      container("maven") {
-#        try {
-#          butler.mvn_sonar()
-#        } catch (e) {
-#          butler.failure(SLACK_TOKEN_DEV, "Code Analysis")
-#          throw e
-#        }
-#      }
-#    }
-#    if (BRANCH_NAME == "master") {
-#      stage("Build Image") {
-#        parallel(
-#          "Build Docker": {
-#            container("builder") {
-#              try {
-#                butler.build_image()
-#              } catch (e) {
-#                butler.failure(SLACK_TOKEN_DEV, "Build Docker")
-#                throw e
-#              }
-#            }
-#          },
-#          "Build Charts": {
-#            container("builder") {
-#              try {
-#                butler.build_chart()
-#              } catch (e) {
-#                butler.failure(SLACK_TOKEN_DEV, "Build Charts")
-#                throw e
-#              }
-#            }
-#          }
-#        )
-#      }
-#      stage("Deploy DEV") {
-#        container("builder") {
-#          try {
-#            // deploy(cluster, namespace, sub_domain, profile)
-#            butler.deploy("dev", "${SERVICE_GROUP}-dev", "${IMAGE_NAME}-dev", "dev")
-#            butler.success(SLACK_TOKEN_DEV, "Deploy DEV")
-#          } catch (e) {
-#            butler.failure(SLACK_TOKEN_DEV, "Deploy DEV")
-#            throw e
-#          }
-#        }
-#      }
-#      stage("Request STAGE") {
-#        container("builder") {
-#          butler.proceed(SLACK_TOKEN_DEV, "Request STAGE", "stage")
-#          timeout(time: 60, unit: "MINUTES") {
-#            input(message: "${butler.name} ${butler.version} to stage")
-#          }
-#        }
-#      }
-#      stage("Proceed STAGE") {
-#        container("builder") {
-#          butler.proceed([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE", "stage")
-#          timeout(time: 60, unit: "MINUTES") {
-#            input(message: "${butler.name} ${butler.version} to stage")
-#          }
-#        }
-#      }
-#      stage("Deploy STAGE") {
-#        container("builder") {
-#          try {
-#            // deploy(cluster, namespace, sub_domain, profile)
-#            butler.deploy("dev", "${SERVICE_GROUP}-stage", "${IMAGE_NAME}-stage", "stage")
-#            butler.success([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE")
-#          } catch (e) {
-#            butler.failure([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE")
-#            throw e
-#          }
-#        }
-#      }
-#    }
+//    stage("Checkout") {
+//      container("builder") {
+//        try {
+//          if (REPOSITORY_SECRET) {
+//            git(url: REPOSITORY_URL, branch: BRANCH_NAME, credentialsId: REPOSITORY_SECRET)
+//          } else {
+//            git(url: REPOSITORY_URL, branch: BRANCH_NAME)
+//          }
+//        } catch (e) {
+//          butler.failure(SLACK_TOKEN_DEV, "Checkout")
+//          throw e
+//        }
+//
+//        butler.scan("java")
+//      }
+//    }
+//    stage("Build") {
+//      container("maven") {
+//        try {
+//          butler.mvn_build()
+//          butler.success(SLACK_TOKEN_DEV, "Build")
+//        } catch (e) {
+//          butler.failure(SLACK_TOKEN_DEV, "Build")
+//          throw e
+//        }
+//      }
+//    }
+//    stage("Tests") {
+//      container("maven") {
+//        try {
+//          butler.mvn_test()
+//        } catch (e) {
+//          butler.failure(SLACK_TOKEN_DEV, "Tests")
+//          throw e
+//        }
+//      }
+//    }
+//    stage("Code Analysis") {
+//      container("maven") {
+//        try {
+//          butler.mvn_sonar()
+//        } catch (e) {
+//          butler.failure(SLACK_TOKEN_DEV, "Code Analysis")
+//          throw e
+//        }
+//      }
+//    }
+//    if (BRANCH_NAME == "master") {
+//      stage("Build Image") {
+//        parallel(
+//          "Build Docker": {
+//            container("builder") {
+//              try {
+//                butler.build_image()
+//              } catch (e) {
+//                butler.failure(SLACK_TOKEN_DEV, "Build Docker")
+//                throw e
+//              }
+//            }
+//          },
+//          "Build Charts": {
+//            container("builder") {
+//              try {
+//                butler.build_chart()
+//              } catch (e) {
+//                butler.failure(SLACK_TOKEN_DEV, "Build Charts")
+//                throw e
+//              }
+//            }
+//          }
+//        )
+//      }
+//      stage("Deploy DEV") {
+//        container("builder") {
+//          try {
+//            // deploy(cluster, namespace, sub_domain, profile)
+//            butler.deploy("dev", "${SERVICE_GROUP}-dev", "${IMAGE_NAME}-dev", "dev")
+//            butler.success(SLACK_TOKEN_DEV, "Deploy DEV")
+//          } catch (e) {
+//            butler.failure(SLACK_TOKEN_DEV, "Deploy DEV")
+//            throw e
+//          }
+//        }
+//      }
+//      stage("Request STAGE") {
+//        container("builder") {
+//          butler.proceed(SLACK_TOKEN_DEV, "Request STAGE", "stage")
+//          timeout(time: 60, unit: "MINUTES") {
+//            input(message: "${butler.name} ${butler.version} to stage")
+//          }
+//        }
+//      }
+//      stage("Proceed STAGE") {
+//        container("builder") {
+//          butler.proceed([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE", "stage")
+//          timeout(time: 60, unit: "MINUTES") {
+//            input(message: "${butler.name} ${butler.version} to stage")
+//          }
+//        }
+//      }
+//      stage("Deploy STAGE") {
+//        container("builder") {
+//          try {
+//            // deploy(cluster, namespace, sub_domain, profile)
+//            butler.deploy("dev", "${SERVICE_GROUP}-stage", "${IMAGE_NAME}-stage", "stage")
+//            butler.success([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE")
+//          } catch (e) {
+//            butler.failure([SLACK_TOKEN_DEV,SLACK_TOKEN_DQA], "Deploy STAGE")
+//            throw e
+//          }
+//        }
+//      }
+//    }
   }
 }
