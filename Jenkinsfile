@@ -26,7 +26,8 @@ podTemplate(label: label, containers: [
       container("builder") {
         butler.prepare(IMAGE_NAME)
 
-        build job: '../test-spring-boot-charts/master', parameters: [[$class: 'StringParameterValue', name: 'paramName', value: valueeee]]
+//        build job: '../test-spring-boot-charts/master', parameters: [[$class: 'StringParameterValue', name: 'paramName', value: valueeee]]
+        build job: '../test-spring-boot-charts/master', parameters: [string(name: 'paramName', value: 'valueeee')]
       }
     }
 //    stage("Checkout") {
