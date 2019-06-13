@@ -26,7 +26,7 @@ podTemplate(label: label, containers: [
       container("builder") {
         butler.prepare(IMAGE_NAME)
 
-        build job: 'test-spring-boot-charts'
+        build job: '../test-spring-boot-charts/master'
       }
     }
 //    stage("Checkout") {
